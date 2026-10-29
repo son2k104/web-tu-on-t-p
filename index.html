@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ôn Tập Trắc Nghiệm Đa Môn</title>
+<script>try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(e){}</script>
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script>tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{sans:['Inter','system-ui','sans-serif']}}}}</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+html.dark{color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{font-family:Inter,system-ui,sans-serif}
+</style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen transition-colors">
+<div id="app" class="max-w-3xl mx-auto px-4 py-6"></div>
+
+<script>
+/* ===== DỮ LIỆU: thêm môn mới bằng cách copy 1 khối môn, đổi id/title/câu hỏi ===== */
+const subjectData = {
+  "lichsu11": {"id": "lichsu11", "title": "Lịch Sử 11", "subtitle": "Trắc nghiệm & Đọc hiểu tư liệu", "desc": "Ôn tập các cuộc cách mạng tư sản thế kỉ XVI–XVIII với câu hỏi trắc nghiệm và đọc hiểu tư liệu lịch sử.", "icon": "📜", "color": "indigo",
+    "p1": [
+      {"q": "Đẳng cấp thứ ba trong xã hội Pháp trước cách mạng gồm những lực lượng nào?", "options": ["Tư sản, nông dân, bình dân thành thị.", "Quý tộc, nông dân, tăng lữ, thợ thủ công.", "Tăng lữ, quý tộc và tư sản, nông dân.", "Vua, quan lại, tăng lữ, bình dân thành thị."], "answer": 0},
+      {"q": "Lực lượng nào giữ vai trò lãnh đạo trong cuộc Chiến tranh giành độc lập của 13 thuộc địa Anh ở Bắc Mĩ?", "options": ["Giai cấp tư sản và chủ nô.", "Giai cấp tư sản và quý tộc mới.", "Giai cấp tư sản.", "Giai cấp vô sản."], "answer": 0},
+      {"q": "Cách mạng tư sản là cuộc cách mạng do", "options": ["giai cấp tư sản lãnh đạo.", "giai cấp nông dân lãnh đạo.", "giai cấp quý tộc lãnh đạo.", "giai cấp vô sản."], "answer": 0},
+      {"q": "Mục tiêu chung của các cuộc cách mạng tư sản thế kỉ XVI - XVIII là", "options": ["lật đổ chế độ phong kiến, thực dân cùng tàn tích của nó.", "lật đổ chế độ phong kiến, cổ đại cùng tàn tích của nó.", "tạo điều kiện cho sự phát triển của chế độ phong kiến.", "mở đường cho sự phát triển của chủ nghĩa xã hội."], "answer": 0},
+      {"q": "Các cuộc cách mạng tư sản thế kỉ XVI - XVIII có hai nhiệm vụ cơ bản là", "options": ["dân tộc và dân chủ.", "dân tộc và dân sinh.", "độc lập và tự do.", "dân chủ và dân quyền."], "answer": 0},
+      {"q": "Vào cuối thế kỉ XIX chủ nghĩa tư bản chính thức xác lập ở đâu?", "options": ["Châu Âu và Bắc Mĩ.", "Tây Âu và châu Á.", "Bắc Mĩ và Nam Á.", "Châu Á và châu Phi."], "answer": 0},
+      {"q": "Quốc gia châu Á nào không trở thành thuộc địa?", "options": ["Xiêm", "Việt Nam", "Trung Quốc", "Inđônêxia"], "answer": 0},
+      {"q": "Chủ nghĩa tư bản chuyển từ tự do cạnh tranh sang giai đoạn độc quyền vào thời gian nào?", "options": ["Cuối thế kỉ XIX - đầu thế kỉ XX.", "Cuối thế kỉ XVII - đầu thế kỉ XVIII.", "Cuối thế kỉ XVIII - đầu thế kỉ XIX.", "Cuối thế kỉ XX - đầu thế kỉ XXI."], "answer": 0},
+      {"q": "Đầu thế kỉ XIX, các nước Mĩ Latinh giành độc lập từ tay thực dân", "options": ["Tây Ban Nha và Bồ Đào Nha.", "Anh và đế quốc Mĩ.", "Tây Ban Nha và Pháp.", "Pháp và Đức."], "answer": 0},
+      {"q": "Nội dung nào sau đây phản ánh đúng về các tổ chức độc quyền ở các nước tư bản vào cuối thế kỉ XIX - đầu thế kỉ XX?", "options": ["Là sự liên minh giữa các nhà tư bản lớn để tập trung sản xuất hoặc tiêu thụ hàng hóa.", "Đánh dấu chủ nghĩa tư bản chuyển từ giai đoạn độc quyền sang tự do cạnh tranh.", "Không có khả năng chi phối đời sống kinh tế - chính trị của các nước tư bản.", "Chỉ hình thành các liên kết ngang giữa những xí nghiệp trong cùng một ngành kinh tế."], "answer": 0},
+      {"q": "Đại hội Xô viết toàn Nga lần II, khai mạc đêm 25/10/1917 tại Điện Xmô-nưi đã ra tuyên bố:", "options": ["tuyên bố thành lập Chính phủ Xô viết do Lê-nin đứng đầu.", "ban hành “Chính sách Cộng sản thời chiến”.", "phát động cuộc chiến đấu chống “thù trong giặc ngoài”.", "thông qua “Chính sách kinh tế mới” do Lê-nin soạn thảo."], "answer": 0},
+      {"q": "Khi mới thành lập, Liên Xô gồm 4 nước Cộng hoà Xô viết là:", "options": ["Nga, U-crai-na, Bê-lô-rút-xi-a và Ngoại Cáp-ca-dơ.", "Nga, U-crai-na, Bê-lô-rút-xi-a và Lít-va.", "Nga, U-crai-na, Môn-đô-va và Lát-vi-a.", "Nga, U-crai-na, Tuốc-mê-nix-tan và Ác-mê-ni-a."], "answer": 0},
+      {"q": "Tuyên ngôn thành lập Liên bang Cộng hòa xã hội chủ nghĩa Xô viết (gọi tắt là Liên Xô) được thông qua tại kì đại hội nào?", "options": ["Đại hội lần thứ nhất các Xô viết toàn Liên bang.", "Đại hội lần thứ ba các Xô viết toàn Liên bang.", "Đại hội lần thứ hai các Xô viết toàn Liên bang.", "Đại hội lần thứ tư các Xô viết toàn Liên bang."], "answer": 0},
+      {"q": "Quốc gia nào đã thành lập nhà nước chuyên chính vô sản đầu tiên trên thế giới?", "options": ["Nga.", "Trung Quốc.", "Pháp.", "Mĩ."], "answer": 0},
+      {"q": "Một trong những quốc gia đầu tiên gia nhập Liên bang Cộng hoà xã hội chủ nghĩa Xô viết năm 1922 là", "options": ["Nga.", "Nhật Bản.", "Campuchia.", "Lào."], "answer": 0},
+      {"q": "Từ những năm 1944 - 1945, các nước Đông Âu nổi dậy giành chính quyền, thành lập nhà nước dân chủ nhân dân trong điều kiện nào?", "options": ["Sự giúp đỡ của Hồng quân Liên Xô trong việc tiêu diệt phát xít ở châu Âu.", "Phát xít Đức tấn công các nước ở Bắc Âu và Tây Âu.", "Sự viện trợ về mọi mặt của các nước xã hội chủ nghĩa.", "Phe Đồng minh rút khỏi mặt trận Đông Âu."], "answer": 0},
+      {"q": "Năm 1949, sau khi cách mạng thành công Trung Quốc đã", "options": ["lựa chọn con đường đi lên chủ nghĩa xã hội.", "lâm vào khủng hoảng nghiêm trọng về kinh tế - xã hội.", "lựa chọn con đường theo hướng tư bản chủ nghĩa.", "tiến hành cải cách mở cửa đưa đất nước thoát khỏi khủng hoảng."], "answer": 0},
+      {"q": "Sau khi hoàn thành cách mạng giải phóng dân tộc 1975, nước Cộng hòa Dân chủ Nhân dân Lào chính thức thành lập và phát triển theo con đường nào?", "options": ["Xây dựng chủ nghĩa xã hội.", "Thể chế Quân chủ lập hiến.", "Thể chế Cộng hòa Tổng thống.", "Xu hướng tư bản chủ nghĩa."], "answer": 0},
+      {"q": "Nội dung nào sau đây phản ánh đúng đặc điểm kinh tế của các nước xã hội chủ nghĩa ở Đông Âu và Liên Xô từ cuối những năm 80 của thế kỉ XX?", "options": ["Kinh tế rơi vào suy thoái, khủng hoảng trầm trọng.", "Tốc độ tăng trưởng kinh tế bắt đầu suy giảm.", "Trở thành những trung tâm kinh tế của thế giới.", "Kinh tế được phục hồi và phát triển trở lại."], "answer": 0},
+      {"q": "Sau khi giành được chính quyền dân chủ nhân dân, từ năm 1945 - 1949, các nước Đông Âu tiếp tục hoàn thành nhiệm vụ nào sau đây?", "options": ["Xóa bỏ tàn tích của chế độ phong kiến.", "Tiến hành cải cách ruộng đất.", "Mở đường cho kinh tế tư bản chủ nghĩa phát triển.", "Tiến hành các cuộc chiến tranh xâm lược."], "answer": 0},
+      {"q": "Từ thế kỉ XVI, các nước phương Tây bắt đầu xâm nhập vào khu vực Đông Nam Á thông qua hoạt động", "options": ["buôn bán và truyền giáo.", "đầu tư phát triển kinh tế.", "mở rộng giao lưu văn hóa.", "xây dựng cơ sở hạ tầng."], "answer": 0},
+      {"q": "Các nước thực dân phương Tây xâm lược Đông Nam Á trong bối cảnh phần lớn các nước ở đây", "options": ["chế độ phong kiến suy thoái, khủng hoảng.", "có nền kinh tế phát triển mạnh mẽ.", "có tình hình chính trị, xã hội ổn định.", "chế độ phong kiến phát triển đỉnh cao."], "answer": 0},
+      {"q": "Đến cuối thế kỉ XIX, ba nước Đông Dương (Việt Nam, Lào, Cam-pu-chia) đã trở thành thuộc địa của thực dân", "options": ["Pháp.", "Anh.", "Hà Lan.", "Tây Ban Nha."], "answer": 0},
+      {"q": "Năm 1511, Bồ Đào Nha đánh chiếm vương quốc nào ở Đông Nam Á?", "options": ["Ma-lắc-ca.", "Đại Việt.", "Lan Xang.", "Cam-pu-chia."], "answer": 0},
+      {"q": "Từ giữa thế kỉ XVI đến đầu thế kỉ XX, nước nào ở Đông Nam Á đã trở thành thuộc địa của thực dân Tây Ban Nha?", "options": ["Phi-líp-pin.", "Mi-an-ma.", "In-đô-nê-xi-a.", "Cam-pu-chia."], "answer": 0},
+      {"q": "Một trong những điểm chung của các cuộc cách mạng tư sản thời cận đại là", "options": ["mở đường cho chủ nghĩa tư bản phát triển.", "do tư sản và chủ nô lãnh đạo.", "xóa bỏ chế độ phong kiến và nô lệ.", "diễn ra dưới hình thức nội chiến."], "answer": 0},
+      {"q": "Nội dung nào phản ánh không đúng về nhiệm vụ dân chủ trong các cuộc cách mạng tư sản thời cận đại?", "options": ["Thống nhất thị trường dân tộc.", "Xóa bỏ chế độ phong kiến chuyên chế.", "Xác lập nền dân chủ tư sản.", "Đem lại quyền tự do chính trị cho người dân."], "answer": 0},
+      {"q": "Chủ nghĩa tư bản hiện đại là thuật ngữ dùng để chỉ chủ nghĩa tư bản", "options": ["từ sau Chiến tranh thế giới thứ hai đến nay.", "trong giai đoạn tự do cạnh tranh.", "bắt đầu chuyển sang giai đoạn độc quyền.", "từ sau Chiến tranh thế giới thứ nhất đến nay."], "answer": 0},
+      {"q": "Một trong những thách thức mà chủ nghĩa tư bản hiện đại phải đối mặt là", "options": ["tiềm ẩn nguy cơ khủng hoảng tài chính mang tính toàn cầu.", "sức sản xuất của các ngành kinh tế ngày càng cao.", "khoa học công nghệ phát triển và ngày càng mở rộng.", "lực lượng lao động có chất lượng ngày càng cao."], "answer": 0},
+      {"q": "Năm 1924, Hiến pháp đầu tiên của Liên Xô đã", "options": ["hoàn thành quá trình thành lập nhà nước Liên Xô.", "kết thúc cuộc chiến tranh bảo vệ tổ quốc.", "giải quyết yêu cầu hòa bình cho nhân dân.", "giải quyết vấn đề ruộng đất cho nông dân."], "answer": 0},
+      {"q": "Sự ra đời của Liên bang Cộng hòa xã hội chủ nghĩa Xô viết (1922) đã", "options": ["tạo sức mạnh tổng hợp để xây dựng đất nước.", "giải phóng các dân tộc trên toàn thế giới.", "liên kết phong trào công nhân các nước tư bản.", "đập tan âm mưu xâm lược của các nước đế quốc."], "answer": 0},
+      {"q": "Trước Chiến tranh thế giới thứ hai, quốc gia duy nhất đi theo con đường xã hội chủ nghĩa là", "options": ["Liên Xô.", "Lào.", "Trung Quốc.", "Việt Nam."], "answer": 0},
+      {"q": "Trong những năm 1944 - 1945, quốc gia nào sau đây ở Đông Âu thành lập chính quyền dân chủ nhân dân?", "options": ["Ba Lan.", "Angiêri.", "Cu Ba.", "Nhật Bản."], "answer": 0},
+      {"q": "Sự kiện nào đã mở đầu quá trình xâm lược của chủ nghĩa thực dân ở khu vực Đông Nam Á?", "options": ["Bồ Đào Nha đánh chiếm Ma-lắc-ca.", "Tây Ban Nha xâm lược và thống trị Phi-líp-pin.", "Thực dân Pháp đánh chiếm Đà Nẵng.", "Hà Lan xâm lược In-đô-nê-xi-a."], "answer": 0},
+      {"q": "Một trong những chính sách cai trị về kinh tế của thực dân phương Tây đối với các nước Đông Nam Á từ cuối thế kỉ XIX là", "options": ["vơ vét tài nguyên thiên nhiên.", "đưa quân đội trực tiếp cai trị.", "tập trung phát triển công nghiệp nặng.", "truyền bá và áp đặt Thiên chúa giáo."], "answer": 0}
+    ],
+    "p2": [
+      {"title": "Câu 1. Đọc đoạn tư liệu:", "passage": "“Các cuộc cách mạng tư sản có hai nhiệm vụ cơ bản là dân tộc và dân chủ. Nhiệm vụ dân tộc nhằm xóa bỏ tình trạng phong kiến cát cứ, hình thành thị trường dân tộc thống nhất (hoặc giải phóng dân tộc). Nhiệm vụ dân chủ nhằm xóa bỏ chế độ phong kiến chuyên chế, xác lập nền dân chủ tư sản.” (SGK Lịch sử 11, tr.9)", "items": [{"text": "a. Một trong những nhiệm vụ cơ bản của các cuộc cách mạng tư sản là nhiệm vụ dân tộc.", "correct": true}, {"text": "b. Cách mạng tư sản Pháp đã xóa bỏ chế độ phong kiến chuyên chế, giải quyết vấn đề ruộng đất cho nông dân. Như vậy, cách mạng tư sản Pháp đã thực hiện nhiệm vụ dân chủ.", "correct": true}, {"text": "c. Chiến tranh giành độc lập của 13 thuộc địa Anh ở Bắc Mĩ cuối thế kỉ XVIII chỉ thực hiện nhiệm vụ dân tộc.", "correct": false}, {"text": "d. Cách mạng tư sản Pháp cuối thế kỉ XVIII vừa thực hiện nhiệm vụ dân tộc, vừa thực hiện nhiệm vụ dân chủ.", "correct": true}]},
+      {"title": "Câu 2. Đọc đoạn tư liệu:", "passage": "“Bằng tham vọng và sức mạnh quân sự vượt trội, đặc biệt là lực lượng hải quân, đến cuối thế kỉ XIX, đầu thế kỉ XX, thực dân Anh đã lần lượt xâm chiếm nhiều thuộc địa trên thế giới. Bức tranh biếm họa “Người khổng lồ Rốt-đơ” trên một tạp chí ở Anh năm 1892 miêu tả tham vọng của Xê-xin Rốt-đơ, một ông trùm khai thác mỏ và chính trị gia người Anh, về việc xây dựng một tuyến đường sắt và điện báo kết nối các thuộc địa của Anh ở châu Phi.”", "items": [{"text": "a. Đoạn tư liệu trên phản ánh quá trình giành giật thuộc địa giữa hai đế quốc Anh và Pháp.", "correct": false}, {"text": "b. Cuối thế kỉ XIX đầu thế kỉ XX, Anh là nước có hệ thống thuộc địa rộng lớn nhất thế giới.", "correct": true}, {"text": "c. Khu vực châu Phi là thuộc địa duy nhất của thực dân Anh.", "correct": false}, {"text": "d. Bức tranh biếm họa “Người khổng lồ Rốt-đơ” phản ánh quá trình đầu hàng của các nước châu Phi trước sự xâm lược của thực dân Anh.", "correct": false}]},
+      {"title": "Câu 3. Đọc đoạn tư liệu:", "passage": "“Liên Xô, nhà nước chuyên chính vô sản đầu tiên, đã tỏ ra có sức mạnh phi thường. Ngay từ khi mới thành lập, Liên Xô chẳng những đập tan được bọn phản cách mạng trong nước, mà còn đánh thắng cuộc can thiệp vũ trang của 14 nước đế quốc, chưa đầy 30 năm sau lại đánh thắng hoàn toàn bọn phát xít Đức - Ý - Nhật, chẳng những bảo vệ được Nhà nước Xô viết mình mà còn góp phần to lớn giải phóng nhiều nước khác, cứu cả loài người khỏi ách nô lệ của chủ nghĩa phát xít.”", "items": [{"text": "a. Liên Xô là một trong những nhà nước chuyên chính vô sản đầu tiên trên thế giới.", "correct": true}, {"text": "b. Nhà nước Liên Xô bắt đầu tỏ ra có sức mạnh phi thường từ sau khi đánh bại phát xít.", "correct": false}, {"text": "c. Việc Liên Xô đánh thắng phát xít đã tạo điều kiện cho nhiều nước khác đứng lên tự giải phóng.", "correct": true}, {"text": "d. Đoạn trích đã tóm tắt quá trình thành lập Liên bang Cộng hòa xã hội chủ nghĩa Xô viết.", "correct": false}]},
+      {"title": "Câu 4. Đọc đoạn tư liệu:", "passage": "“Đến năm 1922, nước Nga Xô viết và các nước cộng hòa Xô viết đồng minh có sự phát triển không đồng đều về kinh tế, văn hóa, chính trị. Trong khi Nga là nước có nền kinh tế công nghiệp tương đối phát triển (nhờ thực hiện chính sách Kinh tế mới), các nước khác vẫn trong tình trạng nông nghiệp lạc hậu. Các nước cộng hòa Xô viết cũng chưa có sự thống nhất về các chính sách phát triển kinh tế, văn hóa, giáo dục,… Điều đó đặt ra yêu cầu phải hợp tác, giúp đỡ lẫn nhau để cùng phát triển.”", "items": [{"text": "a. Liên bang Cộng hòa xã hội chủ nghĩa Xô viết được thành lập năm 1922 trong bối cảnh kinh tế nước Nga và các nước Xô viết khác có sự phát triển tương đối đồng đều.", "correct": false}, {"text": "b. Một trong những nguyên nhân thúc đẩy sự thành lập Liên bang Cộng hòa xã hội chủ nghĩa Xô viết là do nhu cầu hợp tác, giúp đỡ nhau để cùng phát triển.", "correct": true}, {"text": "c. Trước khi thành lập Liên bang Xô viết, các nước cộng hòa Xô viết đã có sự thống nhất bước đầu về các chính sách phát triển.", "correct": false}, {"text": "d. Năm 1922, kinh tế nước Nga phát triển là do thực hiện chính sách Kinh tế mới.", "correct": true}]},
+      {"title": "Câu 5. Đọc đoạn tư liệu:", "passage": "“Điểm chung của chính sách thống trị thực dân ở Đông Nam Á là khai thác, vơ vét và bòn rút các quốc gia trong khu vực bằng chính sách thuế khóa đánh vào các tầng lớp nhân dân bản địa, cướp ruộng đất lập đồn điền, bóc lột sức người, khai thác tài nguyên; thông qua khai thác triệt để sản phẩm nông nghiệp, tiếp tục đầu tư để bóc lột lâu dài trong công nghiệp… Vì vậy, cao su, cà phê, chè, lúa gạo là những sản vật đặc trưng của Đông Nam Á được thực dân phương Tây chú ý khai thác từ sớm.”", "items": [{"text": "a. Đoạn trích cung cấp thông tin về chính sách khai thác, bóc lột của thực dân phương Tây đối với khu vực Đông Nam Á.", "correct": true}, {"text": "b. Trong công nghiệp, thực dân phương Tây tìm cách vơ vét, bòn rút các nước Đông Nam Á thông qua việc cướp ruộng đất lập đồn điền.", "correct": false}, {"text": "c. Những sản vật được coi là thế mạnh của các nước Đông Nam Á được thực dân phương Tây chú ý đầu tư khai thác sớm để thu lợi nhuận cao.", "correct": true}, {"text": "d. Khai thác tài nguyên thiên nhiên không phải là điểm chung trong chính sách cai trị của thực dân phương Tây ở Đông Nam Á.", "correct": false}]},
+      {"title": "Câu 6. Đọc đoạn tư liệu:", "passage": "“Các cuộc cách mạng tư sản đều giành thắng lợi, lật đổ chế độ phong kiến, thực dân và thiết lập chế độ tư bản chủ nghĩa. Do điều kiện lịch sử ở mỗi nước khác nhau nên thắng lợi của các cuộc cách mạng tư sản cũng khác nhau. Cách mạng tư sản Anh đã lật đổ chế độ quân chủ chuyên chế, thiết lập chế độ quân chủ lập hiến. Chiến tranh giành độc lập của 13 thuộc địa Anh ở Bắc Mĩ đã lật đổ sự thống trị của thực dân Anh, giành được độc lập dân tộc. Cách mạng tư sản Pháp đã lật đổ chế độ quân chủ chuyên chế, thiết lập chế độ cộng hòa.”", "items": [{"text": "a. Mức độ thắng lợi của các cuộc cách mạng tư sản phụ thuộc vào điều kiện lịch sử của mỗi nước.", "correct": true}, {"text": "b. Sau cuộc cách mạng tư sản thế kỉ XVII, nước Anh thiết lập chế độ Cộng hòa.", "correct": false}, {"text": "c. Điểm chung của các cuộc cách mạng tư sản là thiết lập chế độ tư bản chủ nghĩa, mở đường cho kinh tế hàng hóa phát triển.", "correct": true}, {"text": "d. Cách mạng tư sản Anh, Pháp, Mĩ thế kỉ XVII - XVIII đều lật đổ chế độ phong kiến, thiết lập chế độ quân chủ lập hiến.", "correct": false}]},
+      {"title": "Câu 7. Đọc đoạn tư liệu:", "passage": "“Cuối thế kỉ XIX đầu thế kỉ XX, các nước tư bản Âu - Mĩ bước sang giai đoạn đế quốc chủ nghĩa, gắn liền với việc mở rộng quyền lực và tầm ảnh hưởng thông qua hoạt động xâm lược thuộc địa bằng vũ lực hoặc các phương thức khác.”", "items": [{"text": "a. Cuối thế kỉ XIX đầu thế kỉ XX, các nước tư bản chủ nghĩa chuyển sang giai đoạn đế quốc chủ nghĩa.", "correct": true}, {"text": "b. Các nước đế quốc xâm lược thuộc địa bằng nhiều phương thức khác nhau.", "correct": true}, {"text": "c. Chủ nghĩa đế quốc ra đời gắn liền với chính sách mở rộng và duy trì quyền kiểm soát hoặc ảnh hưởng đối với các quốc gia hay dân tộc yếu hơn ở châu Âu và châu Mĩ.", "correct": false}, {"text": "d. Sử dụng sức mạnh quân sự là phương thức xâm lược thuộc địa chủ yếu của các nước tư bản châu Âu.", "correct": false}]},
+      {"title": "Câu 8. Đọc đoạn tư liệu:", "passage": "“Hội nghị Trung ương 3 (khóa XI) của Ban Chấp hành Trung ương Đảng Cộng sản Trung Quốc (12/1978) đã quyết định thực hiện cải cách, mở cửa, xây dựng hiện đại hóa xã hội chủ nghĩa. Đường lối này được nâng lên thành đường lối chung tại Đại hội XII (1982) và Đại hội XIII (1987): lấy phát triển kinh tế làm trung tâm, tiến hành cải cách, mở cửa, chuyển nền kinh tế kế hoạch hóa tập trung sang nền kinh tế thị trường xã hội chủ nghĩa linh hoạt hơn nhằm hiện đại hóa và xây dựng chủ nghĩa xã hội đặc sắc Trung Quốc, với mục tiêu biến Trung Quốc thành quốc gia giàu mạnh, dân chủ và văn minh.”", "items": [{"text": "a. Tại Đại hội XIII (1987), Ban Chấp hành Trung ương Đảng Cộng sản Trung Quốc đã quyết định cải cách, mở cửa đất nước.", "correct": false}, {"text": "b. Công cuộc cải cách, mở cửa của Trung Quốc nhằm mục tiêu cuối cùng là chuyển đổi cách thức hoạt động của nền kinh tế theo hướng hiện đại.", "correct": false}, {"text": "c. Nội dung đường lối cải cách - mở cửa ở Trung Quốc được xây dựng và hoàn thiện trong khoảng thời gian từ 1978 đến 1987.", "correct": true}, {"text": "d. Trong nội dung đường lối cải cách, mở cửa, Trung Quốc xác định sẽ xây dựng một mô hình xã hội chủ nghĩa mang màu sắc riêng của đất nước mình.", "correct": true}]},
+      {"title": "Câu 9. Đọc đoạn tư liệu:", "passage": "Tại Bảo tàng hàng hải ở Ma-lắc-ca (Ma-lai-xi-a), mô hình con tàu Phlo đơ Ma của Bồ Đào Nha bị đắm ở Ma-lắc-ca thu hút sự chú ý của đông đảo khách tham quan. Đây là một trong số những con tàu thuộc hạm đội hùng mạnh của thực dân Bồ Đào Nha tấn công xâm lược Vương quốc Ma-lắc-ca, cũng là một thương cảng sầm uất ở Đông Nam Á vào năm 1511. Sự kiện này đã mở đầu cho quá trình xâm lược và thống trị kéo dài nhiều thế kỉ của thực dân phương Tây ở Đông Nam Á.", "items": [{"text": "a. Đoạn trích tập trung phản ánh sự phát triển của du lịch tại thành phố biển Ma-lắc-ca.", "correct": false}, {"text": "b. Bồ Đào Nha là nước thực dân phương Tây đầu tiên xâm lược khu vực Đông Nam Á.", "correct": true}, {"text": "c. Thực dân phương Tây bắt đầu quá trình xâm lược khu vực Đông Nam Á từ thế kỉ XV.", "correct": false}, {"text": "d. Một trong những nguyên nhân khiến Bồ Đào Nha xâm lược Ma-lắc-ca vì đây là một hải cảng sầm uất ở biển Đông.", "correct": true}]}
+    ]},
+  "gdkt11": {"id": "gdkt11", "title": "GDKT & PL 11", "subtitle": "Giáo dục kinh tế & pháp luật", "desc": "Ôn tập giữa HK1: cạnh tranh, cung – cầu và các tình huống kinh tế – pháp luật thực tế.", "icon": "⚖️", "color": "emerald",
+    "p1": [
+      {"q": "Sự tranh đua giữa các chủ thể kinh tế nhằm có được những ưu thế trong sản xuất, tiêu thụ hàng hóa, qua đó thu được lợi nhuận tối đa là nội dung của khái niệm", "options": ["cạnh tranh.", "thi đua.", "thị trường.", "lao động."], "answer": 0},
+      {"q": "Một trong những đặc trưng cơ bản phản ánh sự cạnh tranh giữa các chủ thể kinh tế là giữa họ luôn luôn có sự", "options": ["thỏa hiệp.", "thỏa mãn.", "ký kết.", "tranh đua."], "answer": 3},
+      {"q": "Trong nền kinh tế thị trường, các chủ thể kinh tế tranh đua với nhau nhằm có được", "options": ["niềm tin tuyệt đối.", "thương hiệu độc quyền.", "ưu thế trong sản xuất.", "bản quyền âm nhạc."], "answer": 2},
+      {"q": "Người sản xuất, kinh doanh luôn giành lấy các điều kiện thuận lợi, tránh được những rủi ro, bất lợi trong sản xuất và lưu thông hàng hóa, dịch vụ là một trong những", "options": ["nguyên nhân của sự ra đời hàng hóa.", "tính chất của cạnh tranh.", "nguyên nhân dẫn đến cạnh tranh.", "nguyên nhân của sự giàu nghèo."], "answer": 2},
+      {"q": "Trong nền kinh tế thị trường, một trong những nguyên nhân dẫn đến cạnh tranh là do sự tồn tại của nhiều chủ sở hữu có điều kiện sản xuất và lợi ích", "options": ["bằng nhau.", "giống nhau.", "khác nhau.", "cào bằng."], "answer": 2},
+      {"q": "Trong kinh tế thị trường, sự tồn tại của nhiều chủ sở hữu với tư cách là những đơn vị kinh tế độc lập, tự do trong sản xuất, kinh doanh, có điều kiện sản xuất và lợi ích khác nhau đã dẫn đến hiện tượng nào sau đây?", "options": ["Cung - Cầu.", "Lạm phát.", "Thất nghiệp.", "Cạnh tranh."], "answer": 3},
+      {"q": "Trong sản xuất và kinh doanh hàng hóa, nội dung nào dưới đây không thể hiện mặt tích cực của cạnh tranh?", "options": ["Áp dụng khoa học – kĩ thuật tiên tiến.", "Thúc đẩy tăng trưởng kinh tế.", "Giảm thiểu chi phí sản xuất.", "Bán hàng giả gây rối thị trường."], "answer": 3},
+      {"q": "Trong nền kinh tế thị trường, mỗi chủ thể kinh tế tạo ra năng suất và chất lượng sản phẩm khác nhau, dẫn đến giữa các sản phẩm có sự cạnh tranh của yếu tố nào dưới đây?", "options": ["Giá trị và số lượng.", "Giá cả và chất lượng.", "Năng suất lao động.", "Giá trị sử dụng."], "answer": 1},
+      {"q": "Nội dung nào dưới đây thể hiện vai trò tích cực của cạnh tranh trong nền kinh tế?", "options": ["Hủy hoại tài nguyên môi trường.", "Triệt tiêu mọi lợi nhuận kinh doanh.", "Thúc đẩy tăng trưởng kinh tế.", "Tăng cường đầu cơ tích trữ."], "answer": 2},
+      {"q": "Nội dung nào dưới đây thể hiện vai trò tích cực của cạnh tranh trong nền kinh tế?", "options": ["Khai thác cạn kiệt tài nguyên.", "Sử dụng những thủ đoạn phi pháp.", "Làm hàng giả, hàng nhái.", "Thúc đẩy lực lượng sản xuất phát triển."], "answer": 3},
+      {"q": "Biện pháp nào dưới đây không phải là hình thức để thực hiện cạnh tranh lành mạnh giữa các doanh nghiệp trong nền kinh tế thị trường?", "options": ["Giảm phí trước bạ cho khách hàng.", "Hỗ trợ mua bảo hiểm cho khách hàng.", "Lừa dối khi khuyến mại cho khách hàng.", "Hỗ trợ lãi xuất ưu đãi cho khách hàng."], "answer": 2},
+      {"q": "Với các giải pháp ưu đãi kích cầu của các doanh nghiệp ô tô cuối năm, cầu về mặt hàng ô tô có xu hướng diễn biến", "options": ["tăng.", "giảm.", "cân bằng.", "giữ nguyên."], "answer": 0},
+      {"q": "Trong sản xuất và lưu thông hàng hóa, cầu là lượng hàng hóa, dịch vụ mà người tiêu dùng sẵn sàng mua với một mức giá nhất định trong khoảng", "options": ["lao động cá biệt.", "chi phí sản xuất.", "thời gian xác định.", "thu nhập cá nhân."], "answer": 2},
+      {"q": "Nội dung nào dưới đây là một trong những nhân tố ảnh hưởng đến lượng cầu?", "options": ["Tình trạng lạm phát.", "Lao động cá biệt.", "Giá cả hàng hóa.", "Giá trị thặng dư."], "answer": 2},
+      {"q": "Nội dung nào dưới đây không phải là nhân tố ảnh hưởng đến lượng cung hàng hóa trên thị trường?", "options": ["Yếu tố đầu vào để sản xuất hàng hóa.", "Kì vọng của chủ thể sản xuất.", "Số lượng người tham gia cung ứng.", "Sự phân hóa giàu nghèo trong xã hội."], "answer": 3},
+      {"q": "Lượng hàng hóa, dịch vụ mà người tiêu dùng sẵn sàng mua với một mức giá nhất định, trong khoảng thời gian xác định là nội dung của khái niệm nào dưới đây?", "options": ["Cung.", "Cầu.", "Sản xuất.", "Giá cả."], "answer": 1},
+      {"q": "Nội dung nào dưới đây là một trong những nhân tố ảnh hưởng đến lượng cầu?", "options": ["Tăng trưởng kinh tế.", "Mức độ lạm phát.", "Biến động thị trường.", "Thị hiếu của người tiêu dùng."], "answer": 3},
+      {"q": "Cung là số lượng hàng hóa, dịch vụ mà nhà cung cấp sẵn sàng đáp ứng cho nhu cầu của thị trường với mức giá được xác định trong khoảng", "options": ["lao động cá biệt.", "chi phí sản xuất.", "thời gian nhất định.", "thu nhập cá nhân."], "answer": 2},
+      {"q": "Mối quan hệ cung - cầu là sự tác động qua lại giữa người mua và người bán nhằm xác định yếu tố nào sau đây?", "options": ["Nguồn gốc của hàng hóa.", "Thời gian hao phí cá biệt.", "Giá cả và số lượng hàng hóa.", "Thời gian lao động xã hội cần thiết."], "answer": 2},
+      {"q": "Trong nền kinh tế thị trường, khi giá cả hàng hóa tăng lên, cung và cầu sẽ vận động theo xu hướng nào sau đây?", "options": ["Cung giảm, cầu tăng.", "Cung giảm, cầu giảm.", "Cung bằng cầu.", "Cung tăng, cầu giảm."], "answer": 3},
+      {"q": "Trong nền kinh tế thị trường, khi các doanh nghiệp thu hẹp sản xuất thì lượng cung hàng hóa sẽ vận động theo xu hướng nào sau đây?", "options": ["Tăng đột biến.", "Tự triệt tiêu.", "Giảm xuống.", "Luôn giữ nguyên."], "answer": 2},
+      {"q": "Trong nền kinh tế thị trường, doanh nghiệp quyết định mở rộng sản xuất trong trường hợp nào sau đây?", "options": ["Cung nhỏ hơn cầu, giá tăng.", "Cung lớn hơn cầu, giá giảm.", "Cung bằng cầu, giá giảm.", "Cung tăng, cầu giảm, giá giảm."], "answer": 0},
+      {"q": "Trong nền kinh tế thị trường, người tiêu dùng không nên mua hàng hóa, dịch vụ trong trường hợp nào sau đây?", "options": ["Cung lớn hơn cầu, giá tăng.", "Cung nhỏ hơn cầu, giá tăng.", "Cung bằng cầu, giá tăng.", "Cung tăng, cầu giảm, giá tăng."], "answer": 1},
+      {"q": "Trong nền kinh tế thị trường, quan hệ cung - cầu là cơ sở giúp Nhà nước đưa ra các biện pháp nhằm mục đích nào dưới đây?", "options": ["Kiềm chế lạm phát.", "Xuất khẩu hàng hóa.", "Bình ổn thị trường.", "Hạn chế thất nghiệp."], "answer": 2},
+      {"q": "Nhân dịp lễ 30/4 các công ty lữ hành giảm giá, Giám đốc cho nhân viên nghỉ đi du lịch là vận dụng nội dung nào?", "options": ["Giá cả độc lập với cầu.", "Giá cả tăng thì cầu giảm.", "Giá cả ngang bằng giá trị.", "Giá cả giảm thì cầu tăng."], "answer": 3},
+      {"q": "Sự tăng mức giá chung các hàng hóa, dịch vụ của nền kinh tế một cách liên tục trong một thời gian nhất định là nội dung của khái niệm nào dưới đây?", "options": ["Thất nghiệp.", "Lao động.", "Tăng trưởng.", "Lạm phát."], "answer": 3},
+      {"q": "Trong một thời gian nhất định, lạm phát được biểu hiện ở sự tăng mức giá chung các loại hàng hóa, dịch vụ của nền kinh tế một cách", "options": ["liên tục.", "ngẫu nhiên.", "nhảy vọt.", "nhất quán."], "answer": 0},
+      {"q": "Mức độ tăng của giá cả ở một con số hằng năm (0% đến dưới 10%) được coi là lạm phát", "options": ["phi mã.", "vượt bậc.", "vừa phải.", "biến động."], "answer": 2},
+      {"q": "Giá cả tăng lên với tốc độ vượt xa mức lạm phát phi mã (lớn hơn 1000%), nền kinh tế lâm vào khủng hoảng là biểu hiện của", "options": ["lạm phát phi mã.", "lạm phát vừa phải.", "siêu lạm phát.", "kinh tế tăng trưởng."], "answer": 2},
+      {"q": "Để kìm chế, đẩy lùi lạm phát, khi thực hiện chính sách tiền tệ, nhà nước sử dụng một trong những biện pháp nào dưới đây?", "options": ["Tăng lãi suất.", "Giảm thu nhập.", "Tăng thuế.", "Hạ lãi suất."], "answer": 0},
+      {"q": "Cắt giảm chi tiêu công là một trong những biện pháp nhằm kiềm chế và đẩy lùi", "options": ["thất nghiệp.", "khủng hoảng.", "suy thoái.", "lạm phát."], "answer": 3},
+      {"q": "Phát hành thừa tiền trong lưu thông là một trong những nguyên nhân dẫn đến hiện tượng nào sau đây?", "options": ["Cạnh tranh.", "Độc quyền.", "Lạm phát.", "Thất nghiệp."], "answer": 2},
+      {"q": "Nội dung nào dưới đây là một trong những nguyên nhân cơ bản dẫn đến lạm phát?", "options": ["Chi phí sản xuất tăng cao.", "Mất công bằng xã hội.", "Tăng trưởng kinh tế.", "Kinh tế suy thoái."], "answer": 0},
+      {"q": "Nội dung nào dưới đây là một trong những nguyên nhân cơ bản dẫn đến lạm phát?", "options": ["Gia tăng dân số.", "Cầu tăng cao.", "Thất nghiệp tự nhiên.", "Ô nhiễm môi trường."], "answer": 1},
+      {"q": "Đối với xã hội, khi lạm phát tăng cao, kéo dài dẫn đến tình trạng nào dưới đây?", "options": ["Khủng hoảng kinh tế.", "Cân bằng sinh thái.", "Phát triển sản xuất.", "Ổn định xã hội."], "answer": 0},
+      {"q": "Người dân trong xã hội sẽ chịu hậu quả nào sau đây khi lạm phát đẩy giá cả hàng hóa cao, chi phí sinh hoạt đắt đỏ?", "options": ["Kinh tế ổn định.", "Thu nhập tăng cao.", "Phân chia giai cấp.", "Mức sống giảm sút."], "answer": 3},
+      {"q": "Giá xăng dầu tăng kéo theo chi phí vận chuyển tăng dẫn đến tăng giá bán sản phẩm. Đây là lạm phát do", "options": ["cầu kéo.", "chi phí đầu vào sản xuất tăng cao.", "tăng xuất khẩu.", "tăng nhập khẩu."], "answer": 1},
+      {"q": "Lạm phát được phân chia thành những loại nào dưới đây?", "options": ["Lạm phát vừa phải, lạm phát phi mã, siêu lạm phát.", "Lạm phát thấp, lạm phát trung bình, lạm phát cao.", "Lạm phát ngắn hạn, lạm phát trung hạn, lạm phát dài hạn.", "Lạm phát bình thường, lạm phát kinh niên, lạm phát nghiêm trọng."], "answer": 0},
+      {"q": "Tình trạng người lao động mong muốn có việc làm nhưng chưa tìm được việc làm gọi là", "options": ["lao động.", "sản xuất.", "lạm phát.", "thất nghiệp."], "answer": 3},
+      {"q": "Phân loại theo nguồn gốc, thất nghiệp không bao gồm loại nào sau đây?", "options": ["Thất nghiệp chu kì.", "Thất nghiệp tự nhiên.", "Thất nghiệp cơ cấu.", "Thất nghiệp theo lứa tuổi."], "answer": 3},
+      {"q": "Về mặt xã hội, khi thất nghiệp tăng cao sẽ gián tiếp dẫn đến phát sinh nhiều", "options": ["công ty mới thành lập.", "tệ nạn xã hội tiêu cực.", "hiện tượng xã hội tốt.", "nhiều người thu nhập cao."], "answer": 1},
+      {"q": "Thất nghiệp phát sinh do sự dịch chuyển không ngừng của người lao động giữa các vùng, công việc là thất nghiệp", "options": ["giới tính.", "tạm thời.", "dân tộc.", "chủng tộc."], "answer": 1},
+      {"q": "Phân loại theo tính chất, thất nghiệp bao gồm thất nghiệp không tự nguyện và thất nghiệp", "options": ["chu kì.", "tự nhiên.", "tự nguyện.", "theo lãnh thổ."], "answer": 2},
+      {"q": "Hoàn thiện thể chế về thị trường lao động là một trong những giải pháp để Nhà nước kiểm soát và kiềm chế", "options": ["thất nghiệp.", "lạm phát.", "suy thoái.", "khủng hoảng."], "answer": 0},
+      {"q": "Nguyên nhân chủ quan dẫn đến người lao động lâm vào tình trạng thất nghiệp là", "options": ["Do cơ sở kinh doanh đóng cửa.", "Mất cân đối cung cầu lao động.", "Bị đuổi việc do vi phạm kỷ luật.", "Nền kinh tế rơi vào khủng hoảng."], "answer": 2},
+      {"q": "Nguyên nhân khách quan dẫn đến người lao động lâm vào tình trạng thất nghiệp là", "options": ["Do khả năng ngoại ngữ kém.", "Do thiếu kỹ năng làm việc.", "Do không đáp ứng yêu cầu.", "Do cơ sở kinh doanh đóng cửa."], "answer": 3},
+      {"q": "Đối với người lao động, khi bị thất nghiệp sẽ ảnh hưởng trực tiếp đến yếu tố nào dưới đây?", "options": ["Thu nhập.", "Địa vị.", "Thăng tiến.", "Tuổi thọ."], "answer": 0},
+      {"q": "Đối với nguồn thu ngân sách nhà nước, khi thất nghiệp tăng cao sẽ làm cho thu ngân sách nhà nước có xu hướng", "options": ["giảm.", "tăng.", "không đổi.", "ổn định."], "answer": 0},
+      {"q": "Đối với chính trị - xã hội, thất nghiệp tăng cao gây ra hậu quả nào sau đây?", "options": ["Nhiều công ty thành lập.", "Trật tự xã hội không ổn định.", "Hiện tượng xã hội tốt.", "Nhiều người thu nhập cao."], "answer": 1},
+      {"q": "Thất nghiệp do mất cân đối cung cầu lao động hoặc sự thay đổi phương thức sản xuất được gọi là thất nghiệp", "options": ["thời vụ.", "cơ cấu.", "chu kì.", "tự nguyện."], "answer": 1},
+      {"q": "Cuộc Cách mạng công nghiệp 4.0 thúc đẩy giảm thiểu lao động chân tay. Nội dung nào không đúng xu hướng?", "options": ["Lao động chân tay tồn tại đồng thời lao động kỹ thuật.", "Lao động chân tay giữ vai trò chủ đạo trong sản xuất.", "Lao động kỹ thuật sẽ tăng nhanh hơn lao động chân tay.", "Lao động kỹ thuật sẽ giữ vai trò chủ đạo trong sản xuất."], "answer": 1},
+      {"q": "Loại hình thất nghiệp nào phản ánh đúng xu hướng tác động của cuộc Cách mạng công nghiệp lần thứ tư?", "options": ["Thất nghiệp cơ cấu.", "Thất nghiệp tự nhiên.", "Thất nghiệp tự nguyện.", "Thất nghiệp chu kỳ."], "answer": 0},
+      {"q": "Hoạt động có mục đích, có ý thức của con người nhằm tạo ra các sản phẩm phục vụ đời sống xã hội là", "options": ["lao động.", "cạnh tranh.", "thất nghiệp.", "cung cầu."], "answer": 0},
+      {"q": "Trong hoạt động sản xuất, lao động có vai trò như là một yếu tố", "options": ["đầu vào.", "đầu ra.", "thứ yếu.", "độc lập."], "answer": 0},
+      {"q": "Thỏa thuận giữa người bán sức lao động và người mua sức lao động về tiền công và điều kiện làm việc gọi là", "options": ["thị trường lao động.", "thị trường tài chính.", "thị trường tiền tệ.", "thị trường công nghệ."], "answer": 0},
+      {"q": "Khi tham gia vào thị trường lao động, hai bên người bán và người mua sức lao động thỏa thuận về", "options": ["Tiền công, tiền lương.", "Điều kiện đi nước ngoài.", "Điều kiện xuất khẩu lao động.", "Tiền môi giới lao động."], "answer": 0},
+      {"q": "Khi khả năng cung ứng lao động lớn hơn khả năng tạo việc làm sẽ dẫn đến hiện tượng nào gia tăng?", "options": ["Lạm phát.", "Thất nghiệp.", "Cạnh tranh.", "Khủng hoảng."], "answer": 1},
+      {"q": "Hiện nay, xu hướng tuyển dụng lao động trong lĩnh vực nông nghiệp ở nước ta có xu hướng", "options": ["giảm.", "tăng.", "giữ nguyên.", "không đổi."], "answer": 0},
+      {"q": "Việc làm là hoạt động lao động tạo ra thu nhập mà pháp luật", "options": ["bắt buộc.", "cấm.", "không cấm.", "quy định."], "answer": 2},
+      {"q": "Thỏa thuận, xác lập hợp đồng làm việc giữa người lao động và người sử dụng lao động gọi là", "options": ["thị trường tài chính.", "thị trường kinh doanh.", "thị trường việc làm.", "thị trường thất nghiệp."], "answer": 2},
+      {"q": "Khi tham gia thị trường việc làm, người lao động thỏa thuận nội dung việc làm, tiền lương với", "options": ["người lao động.", "người sử dụng lao động.", "các tổ chức đoàn thể.", "đại diện công đoàn."], "answer": 1},
+      {"q": "Tỉ lệ thất nghiệp 3,2% của lực lượng lao động trong độ tuổi thể hiện nguyên nhân nào dưới đây?", "options": ["Cung lao động tăng.", "Cầu về lao động tăng.", "Cung về việc làm tăng.", "Cầu về việc làm giảm."], "answer": 0},
+      {"q": "Nguồn cung lao động so với nhu cầu tuyển dụng việc làm thực tế thể hiện xu hướng", "options": ["Cân bằng.", "Nhỏ hơn.", "Lớn hơn.", "Thiếu hụt."], "answer": 2},
+      {"q": "Cuộc Cách mạng 4.0 tạo ra thách thức trực tiếp nào sau đây đối với người lao động?", "options": ["Tạo ra nhiều việc làm mới.", "Người lao động có thu nhập cao.", "Người lao động dễ bị mất việc.", "Kỹ năng lao động được nâng cao."], "answer": 2},
+      {"q": "Cuộc cách mạng 4.0 sẽ tác động tới thị trường lao động làm cho", "options": ["Lao động có kỹ thuật cao sẽ giảm.", "Lao động có trình độ cao sẽ tăng.", "Lao động nông nghiệp sẽ giảm.", "Lao động ngành dịch vụ giảm."], "answer": 2}
+    ],
+    "p2": [
+      {"title": "Câu 66. Tình huống doanh nghiệp áo sơ mi H:", "passage": "Công ty H chuyên sản xuất kinh doanh các sản phẩm áo sơ mi nữ. Hai tháng gần đây, trên thị trường xuất hiện nhiều sản phẩm mới với mẫu mã đa dạng, giá hấp dẫn làm doanh thu công ty H sụt giảm. Ban Giám đốc công ty phải tìm nguồn vải mới, ứng dụng công nghệ, nâng lương tuyển nhà thiết kế tay nghề cao để thu hút khách hàng.", "items": [{"text": "a) Công ty H và các công ty khác cùng cạnh tranh nhau về sản phẩm hàng may mặc.", "correct": true}, {"text": "b) Việc Ban giám đốc đưa ra các giải pháp thu hút khách hàng là phù hợp quy luật cạnh tranh.", "correct": true}, {"text": "c) Điều kiện sản xuất khác nhau nên các công ty cạnh tranh nhau là hợp lý.", "correct": true}, {"text": "d) Các chủ thể kinh doanh được sử dụng mọi biện pháp để thắng trong cạnh tranh.", "correct": false}]},
+      {"title": "Câu 67. Tình huống cạnh tranh sữa tươi giữa Công ty A và B:", "passage": "Công ty A và B là hai đơn vị sản xuất sữa tươi lớn. Công ty A xây trang trại bò sữa hiện đại và đào tạo nhân lực cao. Công ty B ứng dụng quy trình sản xuất khép kín từ khâu nhập giống đến phân phối. Sự khác biệt về điều kiện sản xuất khiến cuộc cạnh tranh thêm gay cấn.", "items": [{"text": "a) Sự khác biệt về điều kiện sản xuất là nguyên nhân dẫn đến cạnh tranh giữa công ty A và B.", "correct": true}, {"text": "b) Công ty A và B đều vận dụng đúng đắn các hình thức cạnh tranh lành mạnh.", "correct": true}, {"text": "c) Sự cạnh tranh tích cực giữa công ty A và B sẽ mang lại lợi ích cho người tiêu dùng.", "correct": true}, {"text": "d) Trong kinh tế thị trường, cạnh tranh tất yếu sẽ làm một công ty phá sản.", "correct": false}]},
+      {"title": "Câu 68. Thị trường bánh Trung thu dịp cận Tết:", "passage": "Vào thời điểm gần Tết Trung thu, nhu cầu đa dạng và xu thế tăng giá thúc đẩy các nhà sản xuất tập trung nguồn lực. Bên cạnh các doanh nghiệp lớn, nhiều cơ sở sản xuất thủ công làng nghề cũng gia nhập thị trường.", "items": [{"text": "a) Thông tin trên thể hiện mối quan hệ cầu tăng dẫn đến cung tăng.", "correct": true}, {"text": "b) Quan hệ cung cầu đã giúp các chủ thể sản xuất kinh doanh đưa ra quyết định hợp lý.", "correct": true}, {"text": "c) Việc có nhiều doanh nghiệp chuyển sang sản xuất sẽ góp phần làm giá cả giảm xuống.", "correct": true}, {"text": "d) Tính thời vụ là yếu tố ảnh hưởng nhất tới cung về thị trường bánh trung thu.", "correct": false}]},
+      {"title": "Câu 69. Biến động giá cả hàng hóa dịp cuối năm:", "passage": "Nhu cầu mua sắm tăng cao dịp cuối năm khiến giá nguyên liệu tăng. Đồng thời giá xăng tăng nhiều lần làm tăng chi phí sản xuất, đẩy giá cả hàng hóa đồng loạt tăng cao, tạo sức ép lên lạm phát.", "items": [{"text": "a) Nguyên nhân dẫn đến lạm phát là do chi phí đầu vào giảm.", "correct": false}, {"text": "b) Giá cả yếu tố đầu vào tăng cao tác động đến cả nguồn cung và cầu.", "correct": true}, {"text": "c) Nhà nước sử dụng công cụ tiền tệ để kiềm chế sự tăng giá.", "correct": true}, {"text": "d) Chi phí đầu vào tăng sẽ làm giảm sức cạnh tranh của doanh nghiệp.", "correct": true}]},
+      {"title": "Câu 70. Tác động của lạm phát đến gia đình chị H:", "passage": "Chi phí sản xuất tăng đẩy giá sinh hoạt gia đình chị H tăng gấp đôi so với tháng trước (giá rau quả tăng 10.000-20.000đ/kg, thịt heo tăng 70.000-100.000đ/kg).", "items": [{"text": "a) Chi phí sản xuất tăng cao là nguyên nhân gây ra hiện tượng lạm phát.", "correct": true}, {"text": "b) Giá cả tăng cao sẽ làm thay đổi cầu của người tiêu dùng.", "correct": true}, {"text": "c) Tăng giá kéo dài sẽ làm đời sống người dân gặp nhiều khó khăn.", "correct": true}, {"text": "d) Tăng lương là biện pháp hữu hiệu nhất để kiềm chế lạm phát.", "correct": false}]},
+      {"title": "Câu 71. Trường hợp việc làm của chị Y, anh X, anh T:", "passage": "Chị Y tốt nghiệp đại học kế toán nhưng thôi việc hành chính để tìm việc hợp sở thích. Anh X bị đuổi việc do vi phạm kỷ luật. Anh T mất việc do doanh nghiệp thu hẹp sản xuất.", "items": [{"text": "a) Thất nghiệp của chị Y là loại hình thất nghiệp tự nguyện.", "correct": true}, {"text": "b) Nguyên nhân anh X thất nghiệp là do mất cân đối cung cầu.", "correct": false}, {"text": "c) Loại hình thất nghiệp của anh T là thất nghiệp cơ cấu.", "correct": false}, {"text": "d) Chị Y, anh X và anh T đều bị ảnh hưởng về thu nhập do bị thất nghiệp.", "correct": true}]},
+      {"title": "Câu 72. Tình trạng đào tạo và tuyển dụng tại tỉnh N:", "passage": "Số sinh viên tốt nghiệp hệ cao đẳng/trung cấp ngành Dược, Điều dưỡng tại tỉnh N rất lớn nhưng chỉ tiêu tuyển dụng ít gây thất nghiệp. Trong khi đó tỉnh lại rất thiếu bác sĩ chuyên môn cao.", "items": [{"text": "a) Mất cân đối cung cầu lao động là nguyên nhân dẫn đến thất nghiệp.", "correct": true}, {"text": "b) Thất nghiệp trong trường hợp trên là thất nghiệp cơ cấu.", "correct": true}, {"text": "c) Tăng nguồn cung bác sĩ chuyên môn cao sẽ khắc phục được hoàn toàn thất nghiệp.", "correct": false}, {"text": "d) Tình trạng mất cân đối kéo dài sẽ gây nhiều hệ lụy phát triển kinh tế.", "correct": true}]},
+      {"title": "Câu 73. Xu hướng tuyển dụng lao động quý III/2022:", "passage": "Nhu cầu tuyển dụng tăng mạnh ở ngành công nghiệp chế tạo, CNTT, bán buôn/bán lẻ, tài chính ngân hàng. Người lao động tìm việc nhiều ở lĩnh vực kỹ thuật, hành chính, marketing, y tế.", "items": [{"text": "a) Nhu cầu tuyển dụng lao động ngành công nghiệp và dịch vụ ngày càng tăng.", "correct": true}, {"text": "b) Người lao động có xu hướng tìm việc nhiều ở các ngành dịch vụ.", "correct": true}, {"text": "c) Sự khác biệt nhu cầu giữa thị trường lao động và việc làm dẫn đến thất nghiệp.", "correct": true}, {"text": "d) Nhà nước có vai trò dự báo thông tin xu hướng tuyển dụng cho người lao động.", "correct": true}]},
+      {"title": "Câu 74. Chính sách phát triển thị trường lao động:", "passage": "Nhà nước thực hiện đồng bộ chính sách ổn định kinh tế vĩ mô, phát triển thị trường lao động. Doanh nghiệp mở rộng đầu tư giúp lực lượng lao động có việc làm tăng nhanh.", "items": [{"text": "a) Chính sách ổn định kinh tế vĩ mô đã góp phần thúc đẩy thị trường việc làm.", "correct": true}, {"text": "b) Thị trường việc làm phát triển đã gián tiếp làm suy giảm thị trường lao động.", "correct": false}, {"text": "c) Nhà nước cần hỗ trợ công tác đào tạo nghề để phát triển thị trường việc làm.", "correct": true}, {"text": "d) Nhà nước nên dùng biện pháp hành chính cưỡng chế doanh nghiệp tuyển dụng.", "correct": false}]}
+    ]},
+  "tinhoc11": {"id": "tinhoc11", "title": "Tin học 11", "subtitle": "Hệ điều hành & ứng dụng", "desc": "Ôn tập giữa HK1: hệ điều hành, giao diện, quản lý thiết bị và các phát biểu Đúng/Sai.", "icon": "💻", "color": "blue",
+    "p1": [
+      {"q": "Hệ điều hành là?", "options": ["Phần mềm để chạy các ứng dụng.", "Thiết bị trung gian để chạy các ứng dụng.", "Môi trường để chạy các ứng dụng.", "Phần mềm tiện ích."], "answer": 2},
+      {"q": "Bước phát triển quan trọng của hệ điều hành máy tính cá nhân là?", "options": ["Cơ chế plug & play.", "Giao diện dễ sử dụng.", "Có hệ điều hành.", "Sử dụng giao diện đồ hoạ với các đối tượng thể hiện bằng hình ảnh."], "answer": 3},
+      {"q": "Giao diện ban đầu của hệ điều hành máy tính cá nhân là?", "options": ["Giao diện dòng lệnh.", "Giao diện dòng chữ.", "Giao diện đồ họa.", "Giao diện dòng lệnh đơn."], "answer": 0},
+      {"q": "Giao diện đồ họa thể hiện các đối tượng bằng?", "options": ["Số.", "Chữ.", "Hình ảnh.", "Âm thanh."], "answer": 2},
+      {"q": "Cửa sổ là gì?", "options": ["Cho phép quan sát đối tượng dưới dạng đồ họa.", "Phương tiện chỉ định điểm làm việc trên màn hình.", "Một vùng hình chữ nhật trên màn hình dành cho một ứng dụng.", "Là biểu tượng dễ gợi nhớ."], "answer": 2},
+      {"q": "Biểu tượng dễ gợi nhớ cho phép?", "options": ["Quan sát đối tượng dưới dạng đồ họa.", "Phóng to, thu nhỏ.", "Thể hiện bởi một con trỏ màn hình.", "Kích hoạt một ứng dụng."], "answer": 3},
+      {"q": "Dòng máy tính PC sử dụng hệ điều hành nào?", "options": ["Hệ điều hành đồ họa macOS.", "Hệ điều hành LINUX.", "Hệ điều hành đồ họa Windows.", "Hệ điều hành UNIX."], "answer": 2},
+      {"q": "LINUX có nguồn gốc từ hệ điều hành nào?", "options": ["Windows.", "mac OS.", "DOS.", "UNIX."], "answer": 3},
+      {"q": "Hệ điều hành máy tính cá nhân phát triển cơ chế nào để tự động nhận biết thiết bị ngoại vi khi khởi động máy tính?", "options": ["plug & play", "plug & done", "plug & win", "win & done"], "answer": 0},
+      {"q": "Công việc nào sau đây KHÔNG phải là chức năng của hệ điều hành?", "options": ["Soạn thảo văn bản", "Cung cấp môi trường để người sử dụng chạy các chương trình ứng dụng", "Sao chép, xoá và chuyển các tệp dữ liệu", "Quản lí các thiết bị của máy tính"], "answer": 0},
+      {"q": "Em có thể sử dụng tiện ích của File Explorer của Window để?", "options": ["Truy cập nhanh các phần mềm ứng dụng.", "Quản lý tệp và thư mục.", "Quan sát trạng thái hiển thị.", "Thực hành các thao tác làm việc với biểu tượng."], "answer": 1},
+      {"q": "Để làm xuất hiện bảng chọn các lệnh có thể thực hiện với tệp thì ta phải?", "options": ["Nháy nút trái chuột.", "Nháy đúp chuột.", "Nháy nút phải chuột.", "Bấm tổ hợp phím CTRL + ENTER."], "answer": 2},
+      {"q": "Tiện ích là?", "options": ["Một phần mềm đa năng.", "Một tệp chứa nhiều tệp con.", "Những công cụ hỗ trợ nhiều công việc khác nhau.", "Một phần mềm ứng dụng."], "answer": 2},
+      {"q": "Đĩa cứng là?", "options": ["Là đĩa kim loại chứa phần mềm.", "Loại đĩa kim loại phủ vật liệu từ tính.", "Là đĩa kim loại chứa các tiện ích.", "Là đĩa quang."], "answer": 1},
+      {"q": "Dữ liệu được đọc, được ghi bởi?", "options": ["Các đầu từ theo các đường thẳng.", "Các đầu từ theo các đường tròn đồng tâm.", "Các đầu từ theo các đoạn thẳng nét cong.", "Các đầu từ theo các cung từ."], "answer": 1},
+      {"q": "Mỗi cung ghi bao nhiêu dữ liệu?", "options": ["512 byte.", "512 mega byte.", "512 gigabyte.", "256 byte."], "answer": 0},
+      {"q": "Trong Windows tổ hợp phím CTRL + SHIFT + N dùng để:", "options": ["Xoá têp, thư mục", "Tạo một thư mục con mới", "Chọn thêm tệp hay thư mục", "Chọn tệp, thư mục"], "answer": 1},
+      {"q": "Cơ chế plug & play lần đầu tiên được sử dụng trong phiên bản nào của HĐH Windows?", "options": ["Windows XP", "Windows 7", "Windows 95", "Windows 10"], "answer": 2},
+      {"q": "Hệ điều hành là?", "options": ["Thiết bị xử lý thông tin.", "Môi trường trung gian giúp phần mềm ứng dụng khai thác phần cứng.", "Nơi cung cấp các dịch vụ điều khiển máy tính.", "Nơi cung cấp các phần mềm tiện ích."], "answer": 1},
+      {"q": "Một liên cung mất liên kết sẽ?", "options": ["Có vài tệp sẽ liên kết đến cùng một cung.", "Đọc ghi không được, cần phải loại khỏi danh sách sử dụng.", "Tạo thành các đoạn dữ liệu \"mồ côi\", có trên đĩa nhưng không khai thác được.", "Dẫn đến việc mất dữ liệu trên tệp."], "answer": 2},
+      {"q": "Văn bản gần với ngôn ngữ tự nhiên trong ngôn ngữ lập trình bậc cao được gọi là?", "options": ["Lệnh.", "Mã code.", "Mã nguồn.", "Một dãy lệnh."], "answer": 2},
+      {"q": "Để máy tính có thể chạy trực tiếp thì?", "options": ["Chương trình được dịch thành ngôn ngữ lập trình.", "Chương trình được dịch thành mã nguồn.", "Chương trình được dịch thành dãy lệnh máy.", "Chương trình được nạp vào bộ nhớ ROM."], "answer": 2},
+      {"q": "Vì sao việc dịch sang mã máy giúp chống sửa đối phần mềm và chống đánh cắp ý tưởng?", "options": ["Mã máy dễ đọc.", "Mã máy có tính bảo mật cao.", "Mã máy rất khó đọc.", "Mã máy được nạp vào bộ nhớ ROM."], "answer": 2},
+      {"q": "Nguyên nhân dẫn đến sự ra đời của phần mềm nguồn mở là?", "options": ["Không chia sẻ mã nguồn.", "Cùng nhau tạo ra mã nguồn.", "Chia sẻ mã nguồn để cùng phát triển.", "Để bảo vệ ý tưởng và chống sửa đổi."], "answer": 2},
+      {"q": "Đáp án nào dưới đây là phần mềm thương mại?", "options": ["Inkscape.", "GIMP.", "Microsoft Word.", "Môi trường lập trình cho ngôn ngữ Python."], "answer": 2},
+      {"q": "Phần mềm tự do có đặc điểm?", "options": ["Là phần mềm miễn phí, được tự do sử dụng mà không cần xin phép.", "Là phần mềm tiện ích.", "Là phần mềm hệ thống.", "Là phần mềm ứng dụng."], "answer": 0},
+      {"q": "Giấy phép công cộng GNU GPL là?", "options": ["Giấy phép điển hình với phần mềm nguồn mở.", "Giấy phép điển hình với phần mềm nguồn đóng.", "Giấy phép điển hình với phần mềm nguồn mở và đóng.", "Đảm bảo quyền đứng tên của các tác giả tham gia phát triển."], "answer": 0},
+      {"q": "Phần mềm nào dưới đây thuộc phần mềm thương mại?", "options": ["Phần mềm đặt hàng và phần mềm đóng gói.", "Hệ điều hành LINUX.", "Writer.", "PostGreSQL."], "answer": 0},
+      {"q": "Hệ quản trị dữ cơ sở dữ liệu mở nào có thể thay thế cho Oracle, SQL server?", "options": ["Android", "Writer, Calc và Impress", "LINUX", "My SQL, postGreSQL"], "answer": 3},
+      {"q": "Phần mềm thương mại bị phụ thuộc vào?", "options": ["Nhà sáng tạo ra phần mềm.", "Nhà cung cấp về giải pháp kĩ thuật.", "Nhà kiểm soát phần mềm.", "Nhà cung cấp dịch vụ trên Internet."], "answer": 1},
+      {"q": "RAM là gì?", "options": ["Phần cứng xử lý thông tin và lưu trữ", "Phần mềm xử lý hình ảnh", "Bộ nhớ có thể ghi được, dùng để lưu dữ liệu tạm thời khi chạy các chương trình, và giữ được lâu dài", "Bộ nhớ có thể ghi được, dùng để lưu dữ liệu tạm thời khi chạy các chương trình, nhưng không giữ được lâu dài"], "answer": 3},
+      {"q": "ROM là gì?", "options": ["Bộ nhớ chỉ có thể đọc, có thể ghi hay xoá. ROM được dùng để lưu các dữ liệu hệ thống cố định và các chương trình kiểm tra hay khởi động máy tính.", "Bộ nhớ chỉ có thể đọc, không thể ghi hay xoá. ROM được dùng để lưu các dữ liệu hệ thống cố định và các chương trình kiểm tra hay khởi động máy tính.", "Phần để lưu thông tin thừa và rác", "Phân xử lý thông tin rác và thông tin chưa hoàn chỉnh"], "answer": 1},
+      {"q": "Sơ đồ mạch điện dưới đây sử dụng loại mạch logic nào (mắc song song K1, K2)?", "options": ["Mạch logic NOT.", "Mạch logic XOR.", "Mạch logic OR.", "Mạch logic AND."], "answer": 2},
+      {"q": "Mạch lôgic cộng hai số 1 bit là?", "options": ["Mạch có hai đầu vào (x, t) và hai đầu ra (z, y-1)", "Mạch có hai đầu vào (x, y) và hai đầu ra (z, t)", "Mạch có hai đầu vào (1, y) và hai đầu ra (1, t)", "Mạch có hai đầu vào (0, y) và hai đầu ra (z, 0)"], "answer": 1},
+      {"q": "Mọi cổng logic đều có thể tổng hợp được từ cổng?", "options": ["AND, OR và NOT", "VGA", "HDMI", "Cổng F"], "answer": 0},
+      {"q": "Cách thức xử lí dữ liệu của CPU được dựa trên cơ sở hoạt động của?", "options": ["Các mạch logic.", "Dữ liệu trong bộ nhớ ngoài.", "Dữ liệu trong bộ nhớ trong.", "Đĩa cứng."], "answer": 0},
+      {"q": "Thiết bị quan trọng nhất bên trong thân máy là?", "options": ["CPU.", "Bộ nhớ ngoài.", "Bộ nhớ trong.", "Bộ nhớ đệm."], "answer": 0},
+      {"q": "Thanh ghi là?", "options": ["Vùng nhớ đặc biệt dùng để lưu trữ tạm thời các lệnh và dữ liệu đang được xử lý.", "Vùng nhớ đặc biệt dùng để lưu trữ các lệnh và dữ liệu đang được xử lý.", "Vùng xử lý dữ liệu.", "Vùng nhớ trung gian."], "answer": 0},
+      {"q": "Tần số đồng hồ xung được dùng để?", "options": ["Tạo ra các xung điện áp.", "Đánh giá tốc độ của CPU.", "Phối hợp đồng bộ các thiết bị của máy tính, đảm bảo máy tính thực hiện đúng chương trình.", "Thực hiện tất cả các phép tính số học và logic trong máy tính."], "answer": 1},
+      {"q": "Bộ phận nào phối hợp đồng bộ các thiết bị của máy tính, đảm bảo máy tính thực hiện đúng chương trình?", "options": ["Bộ nhớ đệm.", "Bộ số học và logic.", "Bộ điều khiển.", "Bộ nhớ ROM."], "answer": 2},
+      {"q": "Loại màn hình nào sử dụng công nghệ đèn chân không?", "options": ["LCD.", "LED.", "CRT.", "Plasma."], "answer": 2},
+      {"q": "Tốc độ của chuột được thể hiện bằng?", "options": ["Tỉ lệ khoảng cách con trỏ màn hình di chuyển được so với khoảng cách di chuyển của chuột trên mặt bàn.", "Khoảng cách di chuyển được của chuột trên màn hình.", "Tốc độ di chuyển trên giây của chuột trên mặt bàn.", "Phương thức kết nối."], "answer": 0},
+      {"q": "Thông số quan trọng nhất của chuột là?", "options": ["Phương thức kết nối và độ phân giải.", "Tốc độ của chuột.", "Hình dáng của chuột.", "Để lại hay không để lại vết di chuyển trên màn hình."], "answer": 0},
+      {"q": "Chuột là?", "options": ["Thiết bị thông dụng nhất để nhập dữ liệu.", "Thiết bị ra phổ biến.", "Thiết bị chỉ định đối tượng làm việc trên màn hình.", "Thiết bị kết nối với màn hình."], "answer": 2},
+      {"q": "Bàn phím là?", "options": ["Thiết bị ra phổ biến.", "Thiết bị thông dụng nhất để nhập dữ liệu.", "Thiết bị chỉ định đối tượng làm việc trên màn hình.", "Thiết bị kết nối với màn hình."], "answer": 1},
+      {"q": "Đâu vừa là thiết bị vào vừa là thiết bị ra?", "options": ["Máy in.", "Máy quét ảnh.", "USB.", "Máy chiếu."], "answer": 2},
+      {"q": "Đâu là thiết bị ra?", "options": ["Đĩa thể rắn(SSD).", "Bàn phím.", "Máy chiếu", "Chuột."], "answer": 2},
+      {"q": "Thiết bị nào dưới đây là thiết bị vào?", "options": ["Bàn phím và máy đọc mã vạch.", "Máy in nhiệt.", "USB.", "Đĩa quang."], "answer": 0},
+      {"q": "Các thiết bị vào, ra là?", "options": ["Nhóm thiết bị chứa dữ liệu tạm thời.", "Nhóm thiết bị chứa các dữ liệu lâu dài.", "Nhóm các thiết bị ngoại vi đa dạng và phong phú nhất của máy tính.", "Các thiết bị điều khiển máy tính theo chương trình."], "answer": 2},
+      {"q": "Thiết bị ra phổ biến nhất là?", "options": ["Máy in.", "Loa.", "Màn hình.", "Máy chiếu."], "answer": 2},
+      {"q": "Khi nào thì người dùng được cung cấp một ổ đĩa trực tuyến?", "options": ["Cài đặt hệ điều hành mới", "Mua các phần mềm nguồn mở", "Sử dụng dịch vụ lưu trữ thư mục và tệp trực tuyến", "Cài đặt các phần mềm tiện ích"], "answer": 2},
+      {"q": "Người dùng có thể xem, nhận xét và thực hiện mọi thao tác với thư mục và tệp là quyền?", "options": ["Chỉ xem", "Chỉnh sửa", "Được nhận xét", "Di chuyển tệp, thư mục"], "answer": 1},
+      {"q": "Người dùng có thể xem và nhận xét là quyền?", "options": ["Chỉ xem", "Chỉnh sửa", "Được nhận xét", "Tạo mới và đổi tên"], "answer": 2},
+      {"q": "Ưu điểm của việc lưu trữ thông tin trực tuyến là?", "options": ["Cho phép chia sẻ thư mục, tệp cho người dùng khác", "Không cho phép chia sẻ thư mục, tệp cho người dùng khác", "Bán được thông tin cho nhau để kiếm tiền", "Thích vào thư mục của ai cũng được"], "answer": 0},
+      {"q": "Người dùng đăng ký sử dụng dịch vụ và được cấp một không gian lưu trữ trực tuyến gọi là?", "options": ["Cầu kết nối", "Nhà lưu trữ", "Đĩa trực tuyến", "Người được cung cấp dịch vụ"], "answer": 2},
+      {"q": "Internet giúp khắc phục giới hạn lưu trữ bằng?", "options": ["Các dịch vụ chia sẻ tệp tin trực tuyến", "Phân phối bán lẻ bộ nhớ", "Cho người dùng thuê bộ nhớ", "Bắt người dùng mua phần mềm thứ 3"], "answer": 0},
+      {"q": "Khi đăng kí sử dụng dịch vụ lưu trữ thông tin, dữ liệu trực tuyến thì người dùng sẽ được?", "options": ["Cung cấp các dịch vụ xử lý dữ liệu", "Cung cấp phần mềm chỉnh sửa dữ liệu trực tuyến", "Cung cấp một không gian nhớ trực tuyến", "Cung cấp một vùng nhớ trung gian"], "answer": 2},
+      {"q": "Đâu là dịch vụ lưu trữ và chia sẻ thông tin trực tuyến của Google?", "options": ["One Drive", "iCloud", "Dropbox", "Google Drive"], "answer": 3},
+      {"q": "Đâu là dịch vụ lưu trữ và chia sẻ thông tin trực tuyến của Microsoft?", "options": ["One Drive", "iCloud", "Dropbox", "Google Drive"], "answer": 0},
+      {"q": "Đâu là dịch vụ lưu trữ và chia sẻ thông tin trực tuyến của Apple?", "options": ["One Drive", "iCloud", "Dropbox", "Google Drive"], "answer": 1},
+      {"q": "Để tìm kiếm tất cả các thư được đánh dấu quan trọng trong gmail, ta sử dụng từ khoá nào?", "options": ["is: unred/read/chat.", "is: starred.", "is: muted.", "is: important."], "answer": 3},
+      {"q": "Trật tự thực hiện khi tìm thông tin bằng máy tìm kiếm: (1) Nhập địa chỉ (2) Lựa chọn kết quả (3) Mở trình duyệt (4) Nhập từ khóa?", "options": ["(1), (2), (3), (4)", "(3), (1), (4), (2)", "(1), (4), (2), (3)", "(3), (4), (1), (2)"], "answer": 1},
+      {"q": "Để tìm kiếm thông tin dưới dạng tệp tin pdf thì em cần?", "options": ["Nhập từ khóa tìm kiếm và bổ sung cụm từ filetype.docx.", "Nhập từ khóa tìm kiếm và bổ sung cụm từ filetype.jpg.", "Nhập từ khóa tìm kiếm và bổ sung cụm từ filetype:pdf.", "Nhập từ khóa tìm kiếm và bổ sung cụm từ filetype.pfd."], "answer": 2},
+      {"q": "Để thu hẹp phạm vi tìm kiếm thì?", "options": ["Đặt từ khóa cần tìm trong dấu nháy kép", "Đặt từ khóa trong dấu ngoặc đơn", "Đặt từ khóa trong dấu ngoặc vuông", "Rút gọn từ khóa"], "answer": 0},
+      {"q": "Để thực hiện tìm kiếm bằng tiếng nói thì cần có?", "options": ["Bàn phím", "Con chuột", "Micro", "Loa"], "answer": 2},
+      {"q": "Chọn đáp án sai?", "options": ["Người không biết cách tìm kiếm tài liệu đúng sẽ không tìm kiếm được tài liệu nhanh và chính xác", "Người biết cách tìm kiếm sẽ tìm được rất nhanh và chính xác", "Người không biết xây dựng từ khóa tìm kiếm sẽ tìm kiếm nhanh hơn", "Ngày nay, tất cả mọi thông tin đều có thể tìm thấy trên Internet"], "answer": 2},
+      {"q": "Khi em muốn tìm kiếm thông tin về tình hình dịch bệnh thì em nên tìm kiếm thông tin dưới dạng?", "options": ["Tin tức", "Hình ảnh", "File pdf", "Văn bản"], "answer": 0},
+      {"q": "Khi tìm kiếm thông tin tuyển sinh của một trường đại học thì em nên yêu cầu tìm dưới dạng nào dưới đây?", "options": ["Tệp .pdf", "Hình ảnh", "Bài báo", "Tin tức"], "answer": 0},
+      {"q": "Để tìm kiếm thông tin dưới các dạng khác nhau thì em cần?", "options": ["Sử dụng hình ảnh để tìm kiếm", "Chọn dạng phân loại kết quả tìm kiếm", "Sử dụng video để tìm kiếm", "Sử dụng giọng nói để tìm kiếm"], "answer": 1},
+      {"q": "Khi nào em được quyền thay đổi quyền truy cập của một người dùng đối với một tệp tin, thư mục trên Google Drive?", "options": ["chỉ (1) đúng.", "(1), (2), (3), (4) đều đúng.", "chỉ (1) và (2) đúng.", "chỉ (2) đúng."], "answer": 2}
+    ],
+    "p2": [
+      {"title": "Câu 1: Cơ chế “plug & play” cho phép hệ điều hành tự động nhận biết thiết bị ngoại vi khi khởi động máy tính.", "passage": "", "items": [{"text": "a) Cơ chế “plug & play” làm cho việc cài đặt thiết bị ngoại vi trở nên phức tạp hơn.", "correct": false}, {"text": "b) Cơ chế “plug & play” chỉ hoạt động với một số loại thiết bị ngoại vi.", "correct": false}, {"text": "c) Cơ chế “plug & play” giúp người dùng không cần phải cài đặt trình điều khiển cho thiết bị ngoại vi.", "correct": true}, {"text": "d) Cơ chế “plug & play” không phải là một thành phần của hệ điều hành.", "correct": false}]},
+      {"title": "Câu 2: iOS là hệ điều hành do Apple phát triển, được sử dụng trên các thiết bị iPhone và iPad.", "passage": "", "items": [{"text": "a) iOS là hệ điều hành mã nguồn mở.", "correct": false}, {"text": "b) iOS là hệ điều hành phổ biến nhất trên điện thoại thông minh.", "correct": false}, {"text": "c) iOS có nhiều tính năng bảo mật và quyền riêng tư.", "correct": true}, {"text": "d) iOS có thể chạy trên các thiết bị Android.", "correct": false}]},
+      {"title": "Câu 3: Phần mềm nguồn mở là phần mềm mà mã nguồn được công khai và cho phép người dùng tự do sử dụng, sửa đổi và phân phối lại.", "passage": "", "items": [{"text": "a) Phần mềm nguồn mở là phần mềm miễn phí.", "correct": false}, {"text": "b) Phần mềm nguồn mở không được phép sử dụng cho mục đích thương mại.", "correct": false}, {"text": "c) Phần mềm nguồn mở có thể được cộng đồng phát triển và cải tiến.", "correct": true}, {"text": "d) Phần mềm nguồn mở không an toàn bằng phần mềm thương mại.", "correct": false}]},
+      {"title": "Câu 4: RAM là bộ nhớ truy cập ngẫu nhiên, dùng để lưu trữ dữ liệu và chương trình đang được sử dụng.", "passage": "", "items": [{"text": "a) RAM có thể lưu trữ dữ liệu khi máy tính tắt nguồn.", "correct": false}, {"text": "b) RAM có dung lượng lớn hơn ROM.", "correct": true}, {"text": "c) RAM có tốc độ truy cập nhanh hơn ROM.", "correct": true}, {"text": "d) RAM không cần thiết đối với máy tính.", "correct": false}]},
+      {"title": "Câu 5: Máy tính có thể kết nối với các thiết bị ngoại vi thông qua cổng kết nối hoặc mạng không dây.", "passage": "", "items": [{"text": "a) Cổng USB là loại cổng kết nối phổ biến nhất hiện nay.", "correct": true}, {"text": "b) Cổng HDMI chỉ có thể truyền tải hình ảnh.", "correct": false}, {"text": "c) Bluetooth là một loại mạng không dây tốc độ cao.", "correct": false}, {"text": "d) Wifi là một loại mạng không dây tầm ngắn.", "correct": false}]},
+      {"title": "Câu 6: Webcam là thiết bị ngoại vi dùng để quay video hoặc chụp ảnh.", "passage": "", "items": [{"text": "a) Webcam không thể được sử dụng để thực hiện cuộc gọi video.", "correct": false}, {"text": "b) Webcam có thể được sử dụng để giám sát an ninh.", "correct": true}, {"text": "c) Webcam không cần thiết đối với máy tính.", "correct": true}, {"text": "d) Webcam không có khả năng ghi âm.", "correct": false}]},
+      {"title": "Câu 7: Thư điện tử là dịch vụ trực tuyến cho phép người dùng gửi và nhận thư điện tử.", "passage": "", "items": [{"text": "a) Thư điện tử không thể được sử dụng để gửi tệp đính kèm.", "correct": false}, {"text": "b) Thư điện tử có thể được sử dụng để giao tiếp với nhiều người cùng một lúc.", "correct": true}, {"text": "c) Thư điện tử không có bất kỳ nguy cơ nào.", "correct": false}, {"text": "d) Thư điện tử là một phương thức giao tiếp nhanh chóng và tiện lợi.", "correct": true}]},
+      {"title": "Câu 8: Thương mại điện tử là việc mua bán hàng hóa hoặc dịch vụ thông qua Internet.", "passage": "", "items": [{"text": "a) Thương mại điện tử không có bất kỳ rủi ro nào.", "correct": false}, {"text": "b) Nên kiểm tra kỹ thông tin về người bán trước khi mua hàng trực tuyến.", "correct": true}, {"text": "c) Nên sử dụng thẻ tín dụng để thanh toán khi mua hàng trực tuyến.", "correct": false}, {"text": "d) Không nên mua hàng trực tuyến.", "correct": false}]},
+      {"title": "Câu 9: Việc sử dụng thiết bị di động có thể mang lại nhiều lợi ích, nhưng cũng có thể gây ra những tác động tiêu cực nếu lạm dụng.", "passage": "", "items": [{"text": "a) Sử dụng thiết bị di động quá nhiều có thể ảnh hưởng đến sức khỏe.", "correct": true}, {"text": "b) Thiết bị di động không thể gây nghiện.", "correct": false}, {"text": "c) Thiết bị di động có thể làm giảm khả năng giao tiếp xã hội của con người.", "correct": true}, {"text": "d) Thiết bị di động không có vai trò gì trong việc kết nối con người.", "correct": false}]},
+      {"title": "Câu 10: Cửa hàng ứng dụng là nơi cung cấp các ứng dụng di động cho người dùng tải xuống và cài đặt.", "passage": "", "items": [{"text": "a) Google Play là cửa hàng ứng dụng của Apple.", "correct": false}, {"text": "b) App Store là cửa hàng ứng dụng của Google.", "correct": false}, {"text": "c) Cửa hàng ứng dụng không có bất kỳ nguy cơ nào.", "correct": false}, {"text": "d) Người dùng nên cẩn thận khi tải xuống ứng dụng từ các nguồn không đáng tin cậy.", "correct": true}]}
+    ]}
+};
+
+/* ===== TIỆN ÍCH ===== */
+const COLORS = {
+  indigo:  {grad:'from-indigo-500 to-indigo-700',  btn:'bg-indigo-600 hover:bg-indigo-700',  soft:'bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300',   bar:'bg-indigo-500',  tab:'border-indigo-500 text-indigo-600 dark:text-indigo-400'},
+  emerald: {grad:'from-emerald-500 to-teal-700',   btn:'bg-emerald-600 hover:bg-emerald-700',soft:'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300',bar:'bg-emerald-500', tab:'border-emerald-500 text-emerald-600 dark:text-emerald-400'},
+  blue:    {grad:'from-blue-500 to-blue-700',      btn:'bg-blue-600 hover:bg-blue-700',      soft:'bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300',           bar:'bg-blue-500',    tab:'border-blue-500 text-blue-600 dark:text-blue-400'}
+};
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shuffle = a => { const r=[...a]; for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]];} return r; };
+const LET = ['A','B','C','D'];
+const card = 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm';
+const isDark = () => document.documentElement.classList.contains('dark');
+const total2 = d => d.p2.reduce((s,q)=>s+q.items.length,0);
+
+let S = {view:'hub'};
+
+function start(id){
+  const d = subjectData[id]; if(!d) return;
+  S = {view:'quiz', sub:d, tab:1,
+    p1:{qs:shuffle(d.p1).map(q=>({q:q.q, o:shuffle(q.options.map((t,i)=>({t, ok:i===q.answer})))})), i:0, score:0, pick:null, done:false},
+    p2:{qs:shuffle(d.p2), i:0, score:0, ans:{}, checked:false, done:false}};
+  render(); window.scrollTo(0,0);
+}
+function go(id){ if(location.hash==='#'+id) start(id); else location.hash = id; }
+function route(){
+  const id = location.hash.slice(1);
+  if(id && subjectData[id]){ if(!(S.sub && S.sub.id===id && S.view!=='hub')) start(id); }
+  else { S={view:'hub'}; render(); }
+}
+window.addEventListener('hashchange', route);
+
+/* ===== VIEWS ===== */
+function themeBtn(){
+  return `<button data-act="theme" class="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-700" aria-label="Đổi giao diện sáng/tối">${isDark()?'☀️ Sáng':'🌙 Tối'}</button>`;
+}
+
+function hub(){
+  const cards = Object.values(subjectData).map(d=>{
+    const c = COLORS[d.color]||COLORS.blue;
+    return `<div class="${card} overflow-hidden flex flex-col">
+      <div class="bg-gradient-to-br ${c.grad} text-white p-5"><div class="text-4xl mb-2" aria-hidden="true">${d.icon}</div>
+        <h2 class="text-xl font-extrabold">${esc(d.title)}</h2><p class="text-sm opacity-90">${esc(d.subtitle)}</p></div>
+      <div class="p-5 flex flex-col gap-4 flex-1">
+        <p class="text-sm text-slate-600 dark:text-slate-300 flex-1">${esc(d.desc)}</p>
+        <div class="flex flex-wrap gap-2 text-xs font-semibold">
+          <span class="px-2.5 py-1 rounded-full ${c.soft}">${d.p1.length} câu trắc nghiệm</span>
+          <span class="px-2.5 py-1 rounded-full ${c.soft}">${d.p2.length} câu Đúng/Sai (${total2(d)} ý)</span></div>
+        <button data-act="open" data-id="${esc(d.id)}" class="w-full ${c.btn} text-white font-semibold py-2.5 rounded-xl transition">Bắt đầu ôn tập</button>
+      </div></div>`;}).join('');
+  return `<header class="flex items-center justify-between gap-3 mb-6">
+      <div><h1 class="text-2xl sm:text-3xl font-extrabold">Ôn Tập Trắc Nghiệm</h1><p class="text-sm text-slate-500 dark:text-slate-400">Chọn môn học để bắt đầu</p></div>${themeBtn()}</header>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">${cards}</div>`;
+}
+
+function quiz(){
+  const d=S.sub, c=COLORS[d.color]||COLORS.blue;
+  const tabs=[[1,'Phần I · Trắc nghiệm'],[2,'Phần II · Đúng / Sai']].map(([n,l])=>
+    `<button data-act="tab" data-n="${n}" class="flex-1 py-3 text-sm font-semibold border-b-2 ${S.tab===n?c.tab:'border-transparent text-slate-500 dark:text-slate-400'}">${l}${S['p'+n].done?' ✓':''}</button>`).join('');
+  return `<header class="flex items-center justify-between gap-2 mb-4">
+      <button data-act="home" class="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-700">‹ Chọn môn khác</button>
+      <div class="flex gap-2"><button data-act="finish" class="px-3 py-2 rounded-xl text-sm font-semibold text-white ${c.btn}">Nộp bài</button>${themeBtn()}</div></header>
+    <h1 class="text-xl sm:text-2xl font-extrabold mb-3">${d.icon} ${esc(d.title)}</h1>
+    <div class="flex ${card} mb-4 overflow-hidden">${tabs}</div>
+    ${S.tab===1?part1(c):part2(c)}`;
+}
+
+function progress(c, i, n, score, label){
+  return `<div class="flex justify-between text-sm font-semibold mb-2"><span>Câu ${Math.min(i+1,n)} / ${n}</span><span>${label}: ${score}</span></div>
+    <div class="h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden mb-5"><div class="h-full ${c.bar} transition-all" style="width:${Math.round(i/n*100)}%"></div></div>`;
+}
+
+function donePanel(n, c){
+  const p=S['p'+n], other=S['p'+(3-n)];
+  const txt = n===1 ? `${p.score} / ${p.qs.length} câu đúng` : `${p.score} / ${total2(S.sub)} ý đúng`;
+  const nextBtn = other.done
+    ? `<button data-act="finish" class="${c.btn} text-white font-semibold px-5 py-2.5 rounded-xl">Xem kết quả tổng</button>`
+    : `<button data-act="tab" data-n="${3-n}" class="${c.btn} text-white font-semibold px-5 py-2.5 rounded-xl">Sang Phần ${n===1?'II':'I'}</button>`;
+  return `<div class="${card} p-6 text-center"><div class="text-4xl mb-2">🎉</div><h2 class="text-lg font-bold mb-1">Hoàn thành Phần ${n===1?'I':'II'}</h2>
+    <p class="text-slate-600 dark:text-slate-300 mb-4">${txt}</p>${nextBtn}</div>`;
+}
+
+function part1(c){
+  const p=S.p1, n=p.qs.length;
+  if(p.done) return donePanel(1,c);
+  const q=p.qs[p.i], answered=p.pick!==null;
+  const opts=q.o.map((o,k)=>{
+    let cls='border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700';
+    if(answered){ if(o.ok) cls='bg-green-500 border-green-600 text-white'; else if(k===p.pick) cls='bg-red-500 border-red-600 text-white'; else cls='border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 opacity-60'; }
+    return `<button data-act="pick" data-k="${k}" ${answered?'disabled':''} class="w-full text-left flex gap-3 items-start rounded-xl border-2 px-4 py-3 transition ${cls}">
+      <span class="shrink-0 w-7 h-7 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center text-sm font-bold">${LET[k]}</span><span class="pt-0.5">${esc(o.t)}</span></button>`;}).join('');
+  let fb='';
+  if(answered){ const ok=q.o[p.pick].ok, right=q.o.findIndex(o=>o.ok);
+    fb=`<div role="status" class="mt-4 p-3 rounded-xl text-sm font-medium ${ok?'bg-green-50 text-green-800 dark:bg-green-950/50 dark:text-green-300':'bg-red-50 text-red-800 dark:bg-red-950/50 dark:text-red-300'}">${ok?'✅ Chính xác!':`❌ Chưa đúng. Đáp án đúng là ${LET[right]}: ${esc(q.o[right].t)}`}</div>
+      <button data-act="next1" class="mt-4 w-full ${c.btn} text-white font-semibold py-3 rounded-xl">${p.i+1<n?'Câu tiếp theo →':'Hoàn thành Phần I'}</button>`; }
+  return `${progress(c,p.i,n,p.score,'Điểm')}<div class="${card} p-5">
+    <h2 class="text-lg font-semibold mb-4 leading-snug">${esc(q.q)}</h2><div class="flex flex-col gap-3">${opts}</div>${fb}</div>`;
+}
+
+function part2(c){
+  const p=S.p2, n=p.qs.length;
+  if(p.done) return donePanel(2,c);
+  const q=p.qs[p.i];
+  const title=(q.title||'').replace(/^Câu\s*\d+\s*[.:]\s*/,'');
+  const items=q.items.map((it,k)=>{
+    const a=p.ans[k]; let box='border-slate-200 dark:border-slate-700', res='';
+    if(p.checked){ const ok=a===it.correct; box=ok?'border-green-500 bg-green-50 dark:bg-green-950/40':'border-red-500 bg-red-50 dark:bg-red-950/40';
+      res=`<p class="mt-2 text-xs font-semibold ${ok?'text-green-700 dark:text-green-300':'text-red-700 dark:text-red-300'}">${ok?'✅ Chính xác':'❌ Sai'} · Đáp án: ${it.correct?'Đúng':'Sai'}</p>`; }
+    const b=(v,l)=>`<button data-act="set" data-k="${k}" data-v="${v}" ${p.checked?'disabled':''} class="px-5 py-2 rounded-lg border-2 text-sm font-semibold transition ${a===v?(v?'bg-green-500 border-green-600 text-white':'bg-red-500 border-red-600 text-white'):'border-slate-200 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700'}">${l}</button>`;
+    return `<div class="rounded-xl border-2 p-4 ${box}"><p class="mb-3 text-sm sm:text-base">${esc(it.text)}</p><div class="flex gap-2">${b(true,'Đúng')}${b(false,'Sai')}</div>${res}</div>`;}).join('');
+  const all=q.items.every((_,k)=>k in p.ans);
+  let act;
+  if(!p.checked) act=`<button data-act="check2" ${all?'':'disabled'} class="mt-4 w-full ${c.btn} text-white font-semibold py-3 rounded-xl disabled:opacity-40 disabled:cursor-not-allowed">Kiểm tra kết quả</button>`;
+  else { const g=q.items.filter((it,k)=>p.ans[k]===it.correct).length;
+    act=`<div role="status" class="mt-4 p-3 rounded-xl text-sm font-medium bg-slate-100 dark:bg-slate-700">Bạn đúng ${g} / ${q.items.length} ý.</div>
+      <button data-act="next2" class="mt-3 w-full ${c.btn} text-white font-semibold py-3 rounded-xl">${p.i+1<n?'Câu tiếp theo →':'Hoàn thành Phần II'}</button>`; }
+  return `${progress(c,p.i,n,p.score,'Số ý đúng')}<div class="${card} p-5">
+    <h2 class="text-base font-bold mb-3">${esc(title)}</h2>
+    ${q.passage?`<blockquote class="mb-4 p-4 rounded-xl bg-slate-100 dark:bg-slate-900/60 border-l-4 border-slate-400 text-sm leading-relaxed italic">${esc(q.passage)}</blockquote>`:''}
+    <div class="flex flex-col gap-3">${items}</div>${act}</div>`;
+}
+
+function result(){
+  const d=S.sub, c=COLORS[d.color]||COLORS.blue;
+  const n1=S.p1.qs.length, n2=total2(d), s1=S.p1.score, s2=S.p2.score;
+  const pct=Math.round((s1+s2)/(n1+n2)*100);
+  const [lv,msg]= pct>=90?['Xuất sắc','🏆 Bạn nắm kiến thức rất vững!']: pct>=80?['Giỏi','🌟 Kết quả rất tốt, ôn thêm vài chỗ nữa là hoàn hảo.']: pct>=65?['Khá','👍 Khá ổn, hãy xem lại các câu sai.']: pct>=50?['Trung bình','📚 Cần ôn kỹ hơn để chắc kiến thức.']:['Cần cố gắng','💪 Đừng nản, làm lại để tiến bộ nhé!'];
+  const row=(l,v,t)=>`<div class="flex justify-between items-center py-3 border-b last:border-0 border-slate-100 dark:border-slate-700"><span>${l}</span><span class="font-bold">${v} / ${t}</span></div>`;
+  return `<header class="flex justify-end mb-4">${themeBtn()}</header>
+    <div class="${card} p-6 text-center">
+      <p class="text-sm font-semibold text-slate-500 dark:text-slate-400">${d.icon} ${esc(d.title)}</p>
+      <div class="my-4 mx-auto w-32 h-32 rounded-full bg-gradient-to-br ${c.grad} text-white flex flex-col items-center justify-center"><span class="text-4xl font-extrabold">${pct}%</span></div>
+      <h2 class="text-2xl font-extrabold">${lv}</h2><p class="text-slate-600 dark:text-slate-300 mt-1 mb-5">${msg}</p>
+      <div class="text-left mb-6">${row('Phần I · Câu trắc nghiệm đúng',s1,n1)}${row('Phần II · Ý Đúng/Sai đúng',s2,n2)}${row('Tổng điểm',s1+s2,n1+n2)}</div>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <button data-act="restart" class="flex-1 ${c.btn} text-white font-semibold py-3 rounded-xl">Làm lại bài này (Xáo trộn mới)</button>
+        <button data-act="home" class="flex-1 border border-slate-300 dark:border-slate-600 font-semibold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700">Đổi môn học</button></div></div>`;
+}
+
+function render(){ $.innerHTML = S.view==='hub'?hub(): S.view==='result'?result(): quiz(); }
+const $ = document.getElementById('app');
+
+/* ===== SỰ KIỆN ===== */
+document.addEventListener('click', e=>{
+  const b=e.target.closest('[data-act]'); if(!b||b.disabled) return;
+  const a=b.dataset.act, top=()=>window.scrollTo({top:0});
+  if(a==='open') go(b.dataset.id);
+  else if(a==='home'){ if(location.hash) location.hash=''; else {S={view:'hub'};render();} top(); return; }
+  else if(a==='theme'){ const on=document.documentElement.classList.toggle('dark'); try{localStorage.setItem('theme',on?'dark':'light')}catch(_){} }
+  else if(a==='tab'){ S.tab=+b.dataset.n; top(); }
+  else if(a==='pick'){ const p=S.p1; if(p.pick!==null) return; p.pick=+b.dataset.k; if(p.qs[p.i].o[p.pick].ok) p.score++; }
+  else if(a==='next1'){ const p=S.p1; if(p.i+1<p.qs.length){p.i++;p.pick=null;} else p.done=true; top(); }
+  else if(a==='set'){ const p=S.p2; if(p.checked) return; p.ans[+b.dataset.k]=b.dataset.v==='true'; }
+  else if(a==='check2'){ const p=S.p2; p.qs[p.i].items.forEach((it,k)=>{ if(p.ans[k]===it.correct) p.score++; }); p.checked=true; }
+  else if(a==='next2'){ const p=S.p2; if(p.i+1<p.qs.length){p.i++;p.ans={};p.checked=false;} else p.done=true; top(); }
+  else if(a==='finish'){ S.view='result'; top(); }
+  else if(a==='restart') { start(S.sub.id); return; }
+  render();
+});
+
+route();
+</script>
+</body>
+</html>
